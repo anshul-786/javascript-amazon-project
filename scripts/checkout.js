@@ -104,5 +104,6 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
     removeFromCart(productId);
 
     document.querySelector(`.js-cart-item-container-${productId}`).remove();
+    document.querySelector('.js-return-to-home-link').innerHTML = `${calculateCartQuantity()} items`;
   })
 });
