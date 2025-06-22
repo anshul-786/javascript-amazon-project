@@ -3,7 +3,6 @@ import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
 let productsHTML = '';
-let timeoutId;
 
 products.forEach(
   (product) => {
@@ -74,10 +73,11 @@ function updateCartQuantity() {
 }
 
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+  let timeoutId;
+  
   button.addEventListener('click', () => {
     const { productId } = button.dataset;
     const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
-    
 
     addToCart(productId, quantity);
     updateCartQuantity();
