@@ -4,6 +4,7 @@ import { getProduct } from '../../data/products.js';
 import formatCurrency  from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.13/esm/index.js'; // default export
 import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.js';
+import { renderOrderSummary } from './orderSummary.js';
 
 export function renderCartSummary() {
   let cartSummaryHTML = '';
@@ -73,6 +74,7 @@ export function renderCartSummary() {
     link.addEventListener('click', () => {
       const { productId } = link.dataset;
       removeFromCart(productId);
+      renderOrderSummary();
 
       document.querySelector(`.js-cart-item-container-${productId}`).remove();
       document.querySelector('.js-return-to-home-link').innerHTML = `${calculateCartQuantity()} items`;
@@ -108,6 +110,7 @@ export function renderCartSummary() {
       // which will run only when clicked - so this is just a function declaration
       // this is another way to update the page instead of direct DOM manipulation
       renderCartSummary();
+      renderOrderSummary();
     });
   });
 }
