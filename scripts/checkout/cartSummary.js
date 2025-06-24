@@ -28,10 +28,10 @@ export function renderCartSummary() {
             src="${matchingProduct.image}">
 
           <div class="cart-item-details">
-            <div class="product-name">
+            <div class="js-product-name-${matchingProduct.id} product-name">
               ${matchingProduct.name}
             </div>
-            <div class="product-price">
+            <div class="js-product-price-${matchingProduct.id} product-price">
               $${formatCurrency(matchingProduct.priceCents)}
             </div>
             <div class="product-quantity js-product-quantity-${matchingProduct.id}">
@@ -125,7 +125,8 @@ function deliveryOptionsHTMLGenerator(matchingProduct, cartItem) {
     const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
     deliveryOptionsHTML += `
-      <div class="js-delivery-option delivery-option"
+      <div class="js-delivery-option delivery-option
+          js-delivery-option-${matchingProduct.id}-${deliveryOption.id}"
           data-product-id="${matchingProduct.id}"
           data-delivery-option-id="${deliveryOption.id}">
         <input type="radio"

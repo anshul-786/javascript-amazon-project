@@ -43,6 +43,10 @@ export function updateCartQuantity(productId, newCartQuantity) {
 }
 
 export function updateDeliveryOption(productId, deliveryOptionId) {
+  if(!['1', '2', '3'].includes(deliveryOptionId)) {
+    return;
+  }
+
   cart.forEach((cartItem) => {
     if (cartItem.productId === productId) {
       cartItem.deliveryOptionId = deliveryOptionId;
