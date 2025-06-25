@@ -58,6 +58,41 @@ class Clothing extends Product {
   }
 }
 
+// function logThis() {
+//   console.log(this);
+// }
+
+// // inside a function or the page `this` refers to undefined
+
+// logThis();
+// logThis.call('hello'); // call() allows functions to set a value to `this`
+
+// const obj = {
+//   method: () => {
+//     console.log(this);
+//   }
+// }
+
+// obj.method();
+
+// // arrow functions refer to `this` as the outer `this`
+// // the reason for designing arrow functions is for the following case
+
+// const obj2 = {
+//   method() {
+//     console.log(this);
+//     // inside a method `this` refers to the object
+
+//     [1, 2, 3].forEach(() => {
+//       console.log(this);
+//       // here `this` will refer to the object
+//       // unlike a regular function where it will point to undefined
+//     })
+//   }
+// }
+
+obj2.method();
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
