@@ -1,7 +1,7 @@
 // naming convention is to use Pascal Case for
 // things that generate objects
 
-class Cart {
+export class Cart {
   cartItems;
   #localStorageKey;
 
@@ -99,9 +99,9 @@ class Cart {
   }
 }
 
-const cart = new Cart('cart-oop');
-const businessCart = new Cart('cart-business');
+// const cart = new Cart('cart-oop');
+// const businessCart = new Cart('cart-business');
 
-console.log(cart);
-console.log(businessCart);
-console.log(businessCart instanceof Cart);
+// console.log(cart);
+// console.log(businessCart);
+// console.log(businessCart instanceof Cart);

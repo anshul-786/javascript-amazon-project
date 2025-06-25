@@ -1,4 +1,5 @@
-import { cart, removeFromCart, updateDeliveryOption, updateCartQuantity } from '../../data/cart.js'; // named export
+// import { cart, removeFromCart, updateDeliveryOption, updateCartQuantity } from '../../data/cart.js'; // named export
+import { Cart } from '../../data/cart-class.js';
 import { getProduct } from '../../data/products.js';
 import formatCurrency  from '../utils/money.js'; // default export
 import { deliveryOptions, getDeliveryOption, calculateDeliveryDateString } from '../../data/deliveryOptions.js';
@@ -7,8 +8,9 @@ import { renderCheckoutHeader } from './checkoutHeader.js';
 
 export function renderCartSummary() {
   let cartSummaryHTML = '';
+  const cart = new Cart('cart');
 
-  cart.forEach((cartItem) => {
+  cart.cartItems.forEach((cartItem) => {
     const productId = cartItem.productId;
     const matchingProduct = getProduct(productId);
 
@@ -72,7 +74,7 @@ export function renderCartSummary() {
   document.querySelectorAll('.js-delete-link').forEach((link) => {
     link.addEventListener('click', () => {
       const { productId } = link.dataset;
-      removeFromCart(productId);
+      cart.removeFromCart(productId);
 
       renderCheckoutHeader();
       renderCartSummary();
@@ -89,14 +91,14 @@ export function renderCartSummary() {
 
   document.querySelectorAll('.js-save-link').forEach((link) => {
     link.addEventListener('click', () => {
-      saveUpdatedCartQuantity(link);
+      saveUpdatedCartQuantity(link, cart);
     });
   });
 
   document.querySelectorAll('.js-quantity-input').forEach((inputElement) => {
     inputElement.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
-        saveUpdatedCartQuantity(inputElement);
+        saveUpdatedCartQuantity(inputElement, cart);
       }
     });
   });
@@ -104,7 +106,7 @@ export function renderCartSummary() {
   document.querySelectorAll('.js-delivery-option').forEach((inputElement) => {
     inputElement.addEventListener('click', () => {
       const { productId, deliveryOptionId } = inputElement.dataset;
-      updateDeliveryOption(productId, deliveryOptionId);
+      cart.updateDeliveryOption(productId, deliveryOptionId);
       // here there is no infinite loop of recursion since we are only adding an event listener
       // which will run only when clicked - so this is just a function declaration
       // this is another way to update the page instead of direct DOM manipulation
@@ -148,14 +150,14 @@ function deliveryOptionsHTMLGenerator(matchingProduct, cartItem) {
   return deliveryOptionsHTML;
 }
 
-function saveUpdatedCartQuantity(element) {
+function saveUpdatedCartQuantity(element, cart) {
   const { productId } = element.dataset;
   const newCartQuantity = Number(document.querySelector(`.js-cart-item-container-${productId}`).querySelector('.js-quantity-input').value);
 
   if (newCartQuantity < 0 || newCartQuantity > 1000) {
     alert('Not a valid quantity');
   } else {
-    updateCartQuantity(productId, newCartQuantity);
+    cart.updateCartQuantity(productId, newCartQuantity);
 
     renderCheckoutHeader();
     renderCartSummary();
