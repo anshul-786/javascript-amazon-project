@@ -59,7 +59,7 @@ export class Cart {
       }
     });
 
-    this.cartItems = newCart;
+    this.cartItems = newCartItems;
 
     this.saveToStorage();
   }

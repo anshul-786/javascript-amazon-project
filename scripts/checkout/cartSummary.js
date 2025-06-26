@@ -1,14 +1,12 @@
 // import { cart, removeFromCart, updateDeliveryOption, updateCartQuantity } from '../../data/cart.js'; // named export
-import { Cart } from '../../data/cart-class.js';
 import { getProduct } from '../../data/products.js';
 import formatCurrency  from '../utils/money.js'; // default export
 import { deliveryOptions, getDeliveryOption, calculateDeliveryDateString } from '../../data/deliveryOptions.js';
 import { renderOrderSummary } from './orderSummary.js';
 import { renderCheckoutHeader } from './checkoutHeader.js';
 
-export function renderCartSummary() {
+export function renderCartSummary(cart) {
   let cartSummaryHTML = '';
-  const cart = new Cart('cart');
 
   cart.cartItems.forEach((cartItem) => {
     const productId = cartItem.productId;
@@ -76,9 +74,9 @@ export function renderCartSummary() {
       const { productId } = link.dataset;
       cart.removeFromCart(productId);
 
-      renderCheckoutHeader();
-      renderCartSummary();
-      renderOrderSummary();
+      renderCheckoutHeader(cart);
+      renderCartSummary(cart);
+      renderOrderSummary(cart);
     });
   });
 
@@ -110,8 +108,8 @@ export function renderCartSummary() {
       // here there is no infinite loop of recursion since we are only adding an event listener
       // which will run only when clicked - so this is just a function declaration
       // this is another way to update the page instead of direct DOM manipulation
-      renderCartSummary();
-      renderOrderSummary();
+      renderCartSummary(cart);
+      renderOrderSummary(cart);
     });
   });
 }
@@ -159,8 +157,8 @@ function saveUpdatedCartQuantity(element, cart) {
   } else {
     cart.updateCartQuantity(productId, newCartQuantity);
 
-    renderCheckoutHeader();
-    renderCartSummary();
-    renderOrderSummary();
+    renderCheckoutHeader(cart);
+    renderCartSummary(cart);
+    renderOrderSummary(cart);
   }
 }
