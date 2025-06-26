@@ -88,5 +88,13 @@
         </div>
       </div>
     </div>
+
+    <script>
+      const url = new URL(location.href);
+      // URL parameters are a way to share information directly in the URL
+      // https://example.com?key1=value1&key2=value2 here the key and value are the URL parameters
+      console.log(url.searchParams.get('orderId'));
+      console.log(url.searchParams.get('productId'));
+    </script>
   </body>
 </html>
