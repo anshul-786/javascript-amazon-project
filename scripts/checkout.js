@@ -72,15 +72,28 @@ import { loadCart } from "../data/cart.js";
 const cart = new Cart('cart');
 
 async function loadPage() {
-  await loadProductsUsingFetch();
+  try {
+    // throw 'error1';
 
-  await new Promise((resolve) => {
-    loadCart(resolve);
-  });
+    await loadProductsUsingFetch();
 
-  renderCheckoutHeader(cart);
-  renderCartSummary(cart);
-  renderOrderSummary(cart);
+    const value = await new Promise((resolve, reject) => {
+      // throw 'error2';
+      loadCart(() => {
+        // throw in the future will not get caught
+        // need to use reject instead
+        // reject('error3');
+        resolve('value');
+      });
+    });
+
+    renderCheckoutHeader(cart);
+    renderCartSummary(cart);
+    renderOrderSummary(cart);
+
+  } catch(error) {
+    console.log('Unexpected error. Please try again later.');
+  }
 }
 
 loadPage();
