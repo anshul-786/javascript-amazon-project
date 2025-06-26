@@ -3,7 +3,7 @@ import { renderCartSummary } from "../../../scripts/checkout/cartSummary.js";
 import { renderOrderSummary } from "../../../scripts/checkout/orderSummary.js";
 // import { loadFromStorage, cart } from "../../../data/cart.js";
 import { Cart } from "../../../data/cart-class.js";
-import { getProduct, loadProducts } from "../../../data/products.js";
+import { getProduct, loadProductsUsingFetch } from "../../../data/products.js";
 
 // integration test for renderCartSummary
 describe('Test suite: renderCartSummary', () => {
@@ -20,7 +20,7 @@ describe('Test suite: renderCartSummary', () => {
   let cart;
 
   beforeAll((done) => {
-    loadProducts(() => {
+    loadProductsUsingFetch().then(() => {
       product1 = getProduct(productId1);
       product2 = getProduct(productId2);
       done();
