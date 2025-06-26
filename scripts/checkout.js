@@ -20,20 +20,82 @@ import { loadCart } from "../data/cart.js";
      some code be excuted in a then block
 */
 
+/*
+  async makes a function return a promise
+
+  await serves the function of .then() and allows
+  to wait for the promise to resolve before moving
+  to the next line of code
+
+  so the following two code blocks are identical
+
+  function loadPage() {
+    return new Promise((resolve) => {
+      console.log('load page');
+      resolve();
+    }).then(() => {
+      return loadProductsUsingFetch();
+    }).then(() => {
+      return new Promise((resolve) => {
+        resolve('value2');
+      });
+    });
+  }
+
+  async function loadPage() {
+    console.log('load page');
+    await loadProductsUsingFetch();
+    return 'value2';
+  }
+
+  -> async and await make the code much more concise by
+     wrapping the function body in a promise and letting
+     us write asynchronous code like normal code
+  -> await can only be used inside an async function
+  -> async and await only deal with promises and not callbacks
+  -> await pauses the function but does not block the whole thread
+     other synchronous code outside the async function can run
+     while the promise in await is getting resolved
+  -> the value in resolve gets returned as a variable using await
+     for example,
+     
+     const value = await new Promise((resolve) => {
+       loadCart(() => {
+         resolve('value');
+       });
+     });
+  
+  -> we can use await with Promise.all() as well to wait for 
+     multiple promises to resolve
+*/
+
 const cart = new Cart('cart');
 
-Promise.all([
-  loadProductsUsingFetch(),
+async function loadPage() {
+  await loadProductsUsingFetch();
 
-  new Promise((resolve) => {
+  await new Promise((resolve) => {
     loadCart(resolve);
-  })
-]).then((values) => {
-  console.log(values);
+  });
+
   renderCheckoutHeader(cart);
   renderCartSummary(cart);
   renderOrderSummary(cart);
-});
+}
+
+loadPage();
+
+// Promise.all([
+//   loadProductsUsingFetch(),
+
+//   new Promise((resolve) => {
+//     loadCart(resolve);
+//   })
+// ]).then(() => {
+//   renderCheckoutHeader(cart);
+//   renderCartSummary(cart);
+//   renderOrderSummary(cart);
+// });
 
 // new Promise((resolve) => {
 //   loadProducts(() => {

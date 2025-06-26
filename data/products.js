@@ -121,7 +121,6 @@ export function loadProductsUsingFetch() {
   const promise = fetch(
     'https://supersimplebackend.dev/products'
   ).then((response) => {
-    console.log(response);
     return response.json(); // this is a promise
   }).then((productsData) => {
     products = productsData.map((productDetails) => {
@@ -136,10 +135,6 @@ export function loadProductsUsingFetch() {
 
   return promise;
 }
-
-// loadProductsUsingFetch().then(() => {
-//   console.log('next step');
-// });
 
 export function loadProducts(func) {
   const xhr = new XMLHttpRequest();
