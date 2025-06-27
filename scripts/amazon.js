@@ -1,14 +1,15 @@
 // import { addToCart, calculateCartQuantity } from '../data/cart.js';
 import { Cart } from '../data/cart-class.js';
-import { products, loadProducts } from '../data/products.js';
+import { products, loadProductsUsingFetch } from '../data/products.js';
 // import formatCurrency from './utils/money.js';
 
 // will show empty page since response takes some time to load
 // if ran as such hence provided the home page code as a function
 // to be run in the future - a callback function
-loadProducts(renderProductsGrid);
+// loadProducts(renderProductsGrid);
 
-function renderProductsGrid() {
+async function renderProductsGrid() {
+  await loadProductsUsingFetch();
   let productsHTML = '';
   const cart = new Cart('cart');
 
@@ -96,3 +97,5 @@ function renderProductsGrid() {
     });
   });
 }
+
+renderProductsGrid();

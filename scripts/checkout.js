@@ -71,7 +71,7 @@ import { loadCartFetch } from "../data/cart.js";
 
 const cart = new Cart('cart');
 
-async function loadPage() {
+async function loadCheckoutPage() {
   try {
     // throw 'error1';
 
@@ -98,7 +98,7 @@ async function loadPage() {
   }
 }
 
-loadPage();
+loadCheckoutPage();
 
 // Promise.all([
 //   loadProductsUsingFetch(),

@@ -2,7 +2,7 @@
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import formatCurrency from "../utils/money.js";
-import { addOrder } from "../../data/orders.js";
+import { addOrder } from "../../data/order-queue.js";
 
 export function renderOrderSummary(cart) {
   let orderPriceCents = 0;
@@ -53,7 +53,7 @@ export function renderOrderSummary(cart) {
     <button class="js-place-order-button place-order-button button-primary">
       Place your order
     </button>
-  `
+  `;
 
   document.querySelector('.js-payment-summary').innerHTML = orderSummaryHTML;
 
