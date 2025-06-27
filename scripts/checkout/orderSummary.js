@@ -3,6 +3,8 @@ import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import formatCurrency from "../utils/money.js";
 import { addOrder } from "../../data/order-queue.js";
+import { renderCartSummary } from "./cartSummary.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
 
 export function renderOrderSummary(cart) {
   let orderPriceCents = 0;
@@ -82,6 +84,12 @@ export function renderOrderSummary(cart) {
     } catch (error) {
       console.log('Unexpected error. Try again later.')
     }
+
+    cart.emptyCart();
+
+    renderCheckoutHeader(cart);
+    renderCartSummary(cart);
+    renderOrderSummary(cart);
 
     location.href = 'orders.html'; // changes URL path
   });
