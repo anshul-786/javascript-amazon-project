@@ -12,19 +12,10 @@ export class Cart {
 
   #loadFromStorage() {
     // this is used to avoid problems when the object is renamed
-    this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey)) || 
-    [{
-      productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-      quantity: 2,
-      deliveryOptionId: '1'
-    }, {
-      productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-      quantity: 1,
-      deliveryOptionId: '2'
-    }]
+    this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey)) || [];
   }
 
-  saveToStorage() {
+  #saveToStorage() {
     localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
   }
 
@@ -47,7 +38,7 @@ export class Cart {
       });
     }
 
-    this.saveToStorage();
+    this.#saveToStorage();
   }
 
   removeFromCart(productId) {
@@ -61,7 +52,7 @@ export class Cart {
 
     this.cartItems = newCartItems;
 
-    this.saveToStorage();
+    this.#saveToStorage();
   }
 
   updateDeliveryOption(productId, deliveryOptionId) {
@@ -75,7 +66,7 @@ export class Cart {
       }
     });
 
-    this.saveToStorage();
+    this.#saveToStorage();
   }
 
   calculateCartQuantity() {
@@ -95,12 +86,12 @@ export class Cart {
       }
     });
 
-    this.saveToStorage();
+    this.#saveToStorage();
   }
 
   emptyCart() {
     this.cartItems = [];
-    this.saveToStorage();
+    this.#saveToStorage();
   }
 }
 

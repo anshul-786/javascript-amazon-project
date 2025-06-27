@@ -1,7 +1,7 @@
-export function renderOrdersHeader(cart) {
-  let ordersHeaderHTML = '';
+export function renderAmazonHeader(cart) {
+  let amazonHeaderHTML = '';
 
-  ordersHeaderHTML += `
+  amazonHeaderHTML += `
     <div class="amazon-header-left-section">
       <a href="amazon.html" class="header-link">
         <img class="amazon-logo"
@@ -33,5 +33,5 @@ export function renderOrdersHeader(cart) {
     </div>
   `
 
-  document.querySelector('.js-orders-header').innerHTML = ordersHeaderHTML;
+  document.querySelector('.js-amazon-header').innerHTML = amazonHeaderHTML;
 }

@@ -2,13 +2,14 @@
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import formatCurrency from "../utils/money.js";
-import { addOrder } from "../../data/order-queue.js";
+import { Orders } from "../../data/orderQueue.js";
 import { renderCartSummary } from "./cartSummary.js";
 import { renderCheckoutHeader } from "./checkoutHeader.js";
 
 export function renderOrderSummary(cart) {
   let orderPriceCents = 0;
   let shippingPriceCents = 0;
+  const orders = new Orders('orders');
   
   cart.cartItems.forEach((cartItem) => {
     const product = getProduct(cartItem.productId);
@@ -79,7 +80,7 @@ export function renderOrderSummary(cart) {
       });
 
       const order = await response.json();
-      addOrder(order);
+      orders.addOrder(order);
 
     } catch (error) {
       console.log('Unexpected error. Try again later.')

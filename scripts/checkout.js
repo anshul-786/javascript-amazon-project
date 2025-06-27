@@ -69,12 +69,11 @@ import { loadCartFetch } from "../data/cart.js";
      multiple promises to resolve
 */
 
-const cart = new Cart('cart');
-
 async function loadCheckoutPage() {
   try {
     // throw 'error1';
-
+    const cart = new Cart('cart');
+    
     await Promise.all([
       loadProductsUsingFetch(),
       loadCartFetch()

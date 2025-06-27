@@ -1,12 +1,12 @@
-import { renderOrdersHeader } from "./ordersHeader.js";
+import { renderAmazonHeader } from "../amazonHeader.js";
 import { getProduct } from "../../data/products.js";
 import formatCurrency from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.13/esm/index.js';
-import { orders } from "../../data/order-queue.js";
 
-export function renderOrderPage(cart) {
+export function renderOrderPage(cart, orders) {
   let ordersHTML = '';
-  orders.forEach((order) => {
+
+  orders.orders.forEach((order) => {
     ordersHTML += `
     <div class="order-container">
           
@@ -29,7 +29,7 @@ export function renderOrderPage(cart) {
       </div>
 
       <div class="order-details-grid">
-        ${renderOrderDetails(order.products)}
+        ${renderOrderDetails(order)}
       </div>
     </div>
   `
@@ -41,15 +41,15 @@ export function renderOrderPage(cart) {
       const { productId } = button.dataset;
       cart.addToCart(productId);
 
-      renderOrdersHeader(cart);
-      renderOrderPage(cart);
+      renderAmazonHeader(cart);
+      renderOrderPage(cart, orders);
     });
   })
 }
 
-function renderOrderDetails(products) {
+function renderOrderDetails(order) {
   let orderDetailsHTML = '';
-  products.forEach((product) => {
+  order.products.forEach((product) => {
     const matchingProduct = getProduct(product.productId);
     orderDetailsHTML += `
     <div class="product-image-container">
@@ -74,7 +74,7 @@ function renderOrderDetails(products) {
     </div>
 
     <div class="product-actions">
-      <a href="tracking.html">
+      <a href="tracking.html?orderId=${order.id}&productId=${product.productId}">
         <button class="track-package-button button-secondary">
           Track package
         </button>
