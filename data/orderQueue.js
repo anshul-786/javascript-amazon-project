@@ -32,15 +32,15 @@ export class Orders {
     return matchingOrder;
   }
 
-  getQuantityForProduct(order, productId) {
-    let quantity;
+  getProductLevelOrderDetails(order, productId) {
+    let details;
 
     order.products.forEach((product) => {
       if (product.productId === productId) {
-        quantity = product.quantity;
+        details = product;
       }
     });
 
-    return quantity;
+    return details;
   }
 }

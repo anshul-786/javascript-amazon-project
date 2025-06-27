@@ -73,9 +73,16 @@
   overflow: hidden;
 }
 
+@keyframes progress-animation {
+  from { width: 0%; }
+  to { width: var(--progress-width, 0%); }
+}
+
 .progress-bar {
   height: 100%;
   background-color: green;
   border-radius: 50px;
-  width: 50%;
+  width: var(--progress-width, 0%);
+  animation-name: progress-animation;
+  animation-duration: 1s;
 }

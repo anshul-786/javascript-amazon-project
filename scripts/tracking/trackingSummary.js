@@ -6,7 +6,11 @@ export async function renderTrackingSummary(orders, orderId, productId) {
 
   const product = getProduct(productId);
   const order = orders.getOrder(orderId);
-  const quantity = orders.getQuantityForProduct(order, productId);
+  const productLevelOrderDetails = orders.getProductLevelOrderDetails(order, productId);
+
+  const percentCompletion = (
+    dayjs().diff(dayjs(order.orderTime)) / dayjs(productLevelOrderDetails.estimatedDeliveryTime).diff(dayjs(order.orderTime))
+  ) * 100;
 
   let trackingSummaryHTML = '';
   trackingSummaryHTML += `
@@ -15,7 +19,7 @@ export async function renderTrackingSummary(orders, orderId, productId) {
     </a>
 
     <div class="delivery-date">
-      Arriving on ${dayjs(order.orderTime).format('MMMM D')}
+      Arriving on ${dayjs(productLevelOrderDetails.estimatedDeliveryTime).format('MMMM D')}
     </div>
 
     <div class="product-info">
@@ -23,19 +27,19 @@ export async function renderTrackingSummary(orders, orderId, productId) {
     </div>
 
     <div class="product-info">
-      Quantity: ${quantity}
+      Quantity: ${productLevelOrderDetails.quantity}
     </div>
 
     <img class="product-image" src="${product.image}">
 
     <div class="progress-labels-container">
-      <div class="progress-label">
+      <div class="js-preparing-label progress-label">
         Preparing
       </div>
-      <div class="progress-label current-status">
+      <div class="js-shipped-label progress-label">
         Shipped
       </div>
-      <div class="progress-label">
+      <div class="js-delivered-label progress-label">
         Delivered
       </div>
     </div>
@@ -46,4 +50,13 @@ export async function renderTrackingSummary(orders, orderId, productId) {
   `;
 
   document.querySelector('.js-order-tracking').innerHTML = trackingSummaryHTML;
+  document.querySelector('.progress-bar').style.setProperty('--progress-width', `${percentCompletion}%`);
+  
+  if (percentCompletion >= 0 && percentCompletion < 50) {
+    document.querySelector('.js-preparing-label').classList.add('current-status');
+  } else if (percentCompletion >= 50 && percentCompletion < 100) {
+    document.querySelector('.js-shipped-label').classList.add('current-status');
+  } else {
+    document.querySelector('.js-delivered-label').classList.add('current-status');
+  }
 }
