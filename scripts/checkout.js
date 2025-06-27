@@ -3,7 +3,7 @@ import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
 import { renderCartSummary } from "./checkout/cartSummary.js";
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { loadProductsUsingFetch } from "../data/products.js";
-import { loadCart } from "../data/cart.js";
+import { loadCartFetch } from "../data/cart.js";
 // import '../data/car.js'; // this runs the entire code
 // import '../data/backend-practice.js';
 
@@ -75,17 +75,19 @@ async function loadPage() {
   try {
     // throw 'error1';
 
-    await loadProductsUsingFetch();
-
-    const value = await new Promise((resolve, reject) => {
-      // throw 'error2';
-      loadCart(() => {
-        // throw in the future will not get caught
-        // need to use reject instead
-        // reject('error3');
-        resolve('value');
-      });
-    });
+    await Promise.all([
+      loadProductsUsingFetch(),
+      loadCartFetch()
+    ]);
+    // const value = await new Promise((resolve, reject) => {
+    //   // throw 'error2';
+    //   loadCart(() => {
+    //     // throw in the future will not get caught
+    //     // need to use reject instead
+    //     // reject('error3');
+    //     resolve('value');
+    //   });
+    // });
 
     renderCheckoutHeader(cart);
     renderCartSummary(cart);

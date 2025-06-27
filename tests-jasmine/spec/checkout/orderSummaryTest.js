@@ -19,13 +19,19 @@ describe('Test suite: renderCartSummary', () => {
   let product2;
   let cart;
 
-  beforeAll((done) => {
-    loadProductsUsingFetch().then(() => {
-      product1 = getProduct(productId1);
-      product2 = getProduct(productId2);
-      done();
-    });
+  beforeAll(async () => {
+    await loadProductsUsingFetch();
+    product1 = getProduct(productId1);
+    product2 = getProduct(productId2);
   });
+
+  // beforeAll((done) => {
+  //   loadProductsUsingFetch().then(() => {
+  //     product1 = getProduct(productId1);
+  //     product2 = getProduct(productId2);
+  //     done();
+  //   });
+  // });
 
   // before each is a hook that runs before each of our tests
   beforeEach(() => {
