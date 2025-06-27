@@ -18,6 +18,7 @@ export class Product {
   name;
   rating;
   priceCents;
+  keywords;
 
   constructor(productDetails) {
     this.id = productDetails.id;
@@ -25,6 +26,7 @@ export class Product {
     this.name = productDetails.name;
     this.rating = productDetails.rating;
     this.priceCents = productDetails.priceCents;
+    this.keywords = productDetails.keywords;
   }
 
   getStarsUrl() {
@@ -117,13 +119,23 @@ export class Appliance extends Product {
 
 export let products = [];
 
-export function loadProductsUsingFetch() {
+export function loadProductsUsingFetch(keywords) {
   const promise = fetch(
     'https://supersimplebackend.dev/products'
   ).then((response) => {
     return response.json(); // this is a promise
   }).then((productsData) => {
-    products = productsData.map((productDetails) => {
+    products = productsData.filter((productDetails) => {
+      if (!keywords || 
+        productDetails.name.toLowerCase().includes(keywords.toLowerCase()) || 
+        productDetails.keywords.filter((keyword) => {
+          return keyword.toLowerCase().includes(keywords.toLowerCase());
+        }).length) {
+        return true;
+      } else {
+        return false;
+      }
+    }).map((productDetails) => {
       if (productDetails.type === 'clothing') {
         return new Clothing(productDetails);
       } else if (productDetails.type === 'appliance') {

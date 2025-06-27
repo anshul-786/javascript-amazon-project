@@ -9,7 +9,10 @@ import { products, loadProductsUsingFetch } from '../data/products.js';
 // loadProducts(renderProductsGrid);
 
 async function renderProductsGrid() {
-  await loadProductsUsingFetch();
+  const url = new URL(location.href);
+  const keywords = url.searchParams.get('search');
+  await loadProductsUsingFetch(keywords);
+
   let productsHTML = '';
   const cart = new Cart('cart');
 
@@ -96,6 +99,20 @@ async function renderProductsGrid() {
       }, 2000);
     });
   });
+
+  document.querySelector('.js-search-bar').addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      searchProducts();
+    }
+  });
+
+  document.querySelector('.js-search-button').addEventListener('click', () => {
+    searchProducts();
+  });
+}
+
+function searchProducts() {
+  location.href = `?search=${document.querySelector('.js-search-bar').value}`;
 }
 
 renderProductsGrid();
