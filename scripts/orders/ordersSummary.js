@@ -18,7 +18,7 @@ export function renderOrderPage(cart, orders) {
           </div>
           <div class="order-total">
             <div class="order-header-label">Total:</div>
-            <div>${formatCurrency(order.totalCostCents)}</div>
+            <div>$${formatCurrency(order.totalCostCents)}</div>
           </div>
         </div>
 
